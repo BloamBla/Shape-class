@@ -282,9 +282,9 @@ let sqr, shpSqr, crcl, shpCrcl, x, y, radius, side, angle, width, height;
 
 function debounce(callback, awaitTime) {
   let timer = null;
-  return () => {
+  return (...args) => {
     this.context = this;
-    this.arguments;
+    this.arguments = [...args];
     this.func = () => {
       callback.apply(this.context, this.arguments);
       timer = null;
@@ -297,15 +297,14 @@ function debounce(callback, awaitTime) {
 }
 
 function throttle(callback, awaitTime) {
-  let closed = false;
-  return () => {
-    if(closed === false) {
-      closed = true;
-      this.context = this;
-      this.arguments = arguments;
+  return (...args) => {
+    this.context = this;
+    this.arguments = [...args];
+    if(!this.callback) {
+      this.callback = callback;
       this.func = () => {
         callback.apply(this.context, this.arguments);
-        setTimeout(() => {closed = false;}, awaitTime);
+        setTimeout(() => {this.callback = null;}, awaitTime);
       };
       this.func();
     }
