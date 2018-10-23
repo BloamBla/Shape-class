@@ -1,1 +1,2 @@
 # Shape-class
+It's can draw square and circle using Circle and Square classes. Also is have emulated classes from Circle and Square is ShapeSquare and ShapeCircle, which draw square and circle like a Circle and Square classes but using Shape parent class. Shape class draw lines using coordinates. ShapeSquare have 1 differents from Square. ShapeSquare have angle to rotate square regarding left top angle.
