@@ -280,11 +280,11 @@ class Square extends DrawCanvas {
 
 let sqr, shpSqr, crcl, shpCrcl, x, y, radius, side, angle, width, height;
 
-function debounce(callback, awaitTime) {
+const debounce = (callback, awaitTime) => {
   let timer = null;
-  return () => {
+  return (...args) => {
     this.context = this;
-    this.arguments;
+    this.arguments = [...args];
     this.func = () => {
       callback.apply(this.context, this.arguments);
       timer = null;
@@ -294,23 +294,22 @@ function debounce(callback, awaitTime) {
     }
     timer = setTimeout(this.func, awaitTime);
   };
-}
+};
 
-function throttle(callback, awaitTime) {
-  let closed = false;
-  return () => {
-    if(closed === false) {
-      closed = true;
-      this.context = this;
-      this.arguments = arguments;
+const throttle = (callback, awaitTime) => {
+  return (...args) => {
+    this.context = this;
+    this.arguments = [...args];
+    if (!this.callback) {
+      this.callback = callback;
       this.func = () => {
         callback.apply(this.context, this.arguments);
-        setTimeout(() => {closed = false;}, awaitTime);
+        setTimeout(() => {this.callback = null;}, awaitTime);
       };
       this.func();
     }
   };
-}
+};
 
 const someDebounceFunc = debounce(() => {
   x = 200 + Math.floor(Math.random() * 100);
@@ -346,7 +345,7 @@ const someThrottleFunc = throttle(() => {
   console.log('throttle');
 }, 1000);
 
-function someFunc() {
+const someFunc = () => {
   setTimeout(someThrottleFunc);
   setTimeout(someThrottleFunc, 250);
   setTimeout(someThrottleFunc, 500);
@@ -376,6 +375,6 @@ function someFunc() {
   setTimeout(someDebounceFunc, 2750);
   setTimeout(someDebounceFunc, 3000);
   setTimeout(someDebounceFunc, 3250);
-}
+};
 
 window.addEventListener('DOMContentLoaded', someFunc);
