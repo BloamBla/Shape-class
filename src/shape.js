@@ -300,7 +300,7 @@ const throttle = (callback, awaitTime) => {
   return (...args) => {
     this.context = this;
     this.arguments = [...args];
-    if(!this.callback) {
+    if (!this.callback) {
       this.callback = callback;
       this.func = () => {
         callback.apply(this.context, this.arguments);
